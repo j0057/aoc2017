@@ -1,0 +1,5 @@
+#!/bin/bash
+day="${1?day missing}"
+mkdir -p input
+curl -s -H "Cookie: session=$(cat .cookie)" "http://adventofcode.com/2017/day/$day/input" \
+    | tee "$(printf "input/day%02d.txt" $day)"
