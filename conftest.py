@@ -12,11 +12,19 @@ def gen_fixture(filename):
         return {}
 
     @pytest.fixture
-    def fixture():
+    def content():
         with open('input/' + filename, 'r') as f:
-            return f.read()
+            return f.read().strip()
 
-    return { match.groups()[0]: fixture }
+    @pytest.fixture
+    def lines():
+        with open('input/' + filename, 'r') as f:
+            return [ line.strip() for line in f ]
+
+    return { 
+        match.groups()[0]: content,
+        match.groups()[0] + '_lines': lines
+    }
 
 def download_inputs():
     with open('.cookie', 'r') as f:

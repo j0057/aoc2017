@@ -30,5 +30,5 @@ def test_1b_ex3(): assert digit_sum_halfway('123425') == 4
 def test_1b_ex4(): assert digit_sum_halfway('123123') == 12
 def test_1b_ex4(): assert digit_sum_halfway('12131415') == 4
 
-def test_1a_answer(day01): assert digit_sum(day01.strip()) == 1136
-def test_1b_answer(day01): assert digit_sum_halfway(day01.strip()) == 1092
+def test_1a_answer(day01): assert digit_sum(day01) == 1136
+def test_1b_answer(day01): assert digit_sum_halfway(day01) == 1092
