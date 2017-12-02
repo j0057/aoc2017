@@ -10,9 +10,19 @@
 # operation is a whole number. They would like you to find those numbers on
 # each line, divide them, and add up each line's result.
 
-def spreadsheet_checksum(lines):
+def spreadsheet_checksum1(lines):
     return sum(max(line) - min(line) for line in [ list(map(int, line.split())) for line in lines ])
 
-def test_2a_example(): assert spreadsheet_checksum(['5 1 9 5', '7 5 3', '2 4 6 8']) == 18
+def spreadsheet_checksum2(lines):
+    spreadsheet = [ list(map(int, line.split())) for line in lines ]
+    return sum(a // b
+               for line in spreadsheet
+               for a in line
+               for b in line
+               if a != b and a % b == 0)
 
-def test_2a_answer(day02_lines): assert spreadsheet_checksum(day02_lines) == 34925
+def test_2a_example(): assert spreadsheet_checksum1(['5 1 9 5', '7 5 3', '2 4 6 8']) == 18
+def test_2b_example(): assert spreadsheet_checksum2(['5 9 2 8', '9 4 7 3', '3 8 6 5']) == 9
+
+def test_2a_answer(day02_lines): assert spreadsheet_checksum1(day02_lines) == 34925
+def test_2b_answer(day02_lines): assert spreadsheet_checksum2(day02_lines) == 221
