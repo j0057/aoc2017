@@ -1,4 +1,3 @@
-#!/usr/bin/python3.5
 
 from itertools import cycle, islice
 
