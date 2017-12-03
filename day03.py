@@ -47,7 +47,7 @@ def test_3b_ex1(): assert number_spiral_sum(1) == 1
 def test_3b_ex2(): assert number_spiral_sum(2) == 1
 def test_3b_ex3(): assert number_spiral_sum(3) == 2
 def test_3b_ex4(): assert number_spiral_sum(4) == 4
-def test_3b_ex4(): assert number_spiral_sum(5) == 5
+def test_3b_ex5(): assert number_spiral_sum(5) == 5
 
 def test_3a_answer(day03_number): assert number_spiral_manhattan(day03_number) == 480
 def test_3b_answer(day03_number): assert number_spiral_sum_answer(day03_number) == 349975

@@ -47,10 +47,22 @@ def gen_fixture(filename):
         with open('input/' + filename, 'r') as f:
             return int(f.read().strip())
 
+    @pytest.fixture
+    def grid():
+        with open('input/' + filename, 'r') as f:
+            return [ row.split() for row in f ]
+
+    @pytest.fixture
+    def number_grid():
+        with open('input/' + filename, 'r') as f:
+            return [ [ int(s) for s in row.split() ] for row in f ]
+
     return { 
         match.groups()[0]: content,
         match.groups()[0] + '_lines': lines,
-        match.groups()[0] + '_number': number
+        match.groups()[0] + '_number': number,
+        match.groups()[0] + '_grid': grid,
+        match.groups()[0] + '_number_grid': number_grid
     }
 
 def generate_fixtures():

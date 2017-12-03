@@ -6,8 +6,8 @@ from itertools import cycle, islice
 # list is circular, so the digit after the last digit is the first digit in the
 # list.
 
-def digit_sum(s):
-    return sum(int(a) for (a, b) in zip(s, islice(cycle(s), 1, None)) if a==b)
+def digit_sum(s, offset=1):
+    return sum(int(a) for (a, b) in zip(s, islice(cycle(s), offset, None)) if a==b)
 
 # Now, instead of considering the next digit, it wants you to consider the
 # digit halfway around the circular list. That is, if your list contains 10
@@ -15,8 +15,7 @@ def digit_sum(s):
 # matches it. Fortunately, your list has an even number of elements.
 
 def digit_sum_halfway(s):
-    offset = int(len(s)/2)
-    return sum(int(a) for (a, b) in zip(s, islice(cycle(s), offset, None)) if a==b)
+    return digit_sum(s, len(s) // 2)
 
 def test_1a_ex1(): assert digit_sum('1122') == 3
 def test_1a_ex2(): assert digit_sum('1111') == 4
