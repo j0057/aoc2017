@@ -29,4 +29,4 @@ def test_3a_ex2(): assert number_spiral_manhattan(12) == 3
 def test_3a_ex3(): assert number_spiral_manhattan(23) == 2
 def test_3a_ex4(): assert number_spiral_manhattan(1024) == 31
 
-def test_3a_answer(day03): assert number_spiral_manhattan(int(day03)) == 480
+def test_3a_answer(day03_number): assert number_spiral_manhattan(day03_number) == 480

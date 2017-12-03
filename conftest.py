@@ -42,9 +42,15 @@ def gen_fixture(filename):
         with open('input/' + filename, 'r') as f:
             return [ line.strip() for line in f ]
 
+    @pytest.fixture
+    def number():
+        with open('input/' + filename, 'r') as f:
+            return int(f.read().strip())
+
     return { 
         match.groups()[0]: content,
-        match.groups()[0] + '_lines': lines
+        match.groups()[0] + '_lines': lines,
+        match.groups()[0] + '_number': number
     }
 
 def generate_fixtures():
