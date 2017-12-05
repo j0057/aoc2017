@@ -43,6 +43,11 @@ def gen_fixture(filename):
             return [ line.strip() for line in f ]
 
     @pytest.fixture
+    def numbers():
+        with open('input/' + filename, 'r') as f:
+            return [ int(line.strip()) for line in f ]
+
+    @pytest.fixture
     def number():
         with open('input/' + filename, 'r') as f:
             return int(f.read().strip())
@@ -60,6 +65,7 @@ def gen_fixture(filename):
     return { 
         match.groups()[0]: content,
         match.groups()[0] + '_lines': lines,
+        match.groups()[0] + '_numbers': numbers,
         match.groups()[0] + '_number': number,
         match.groups()[0] + '_grid': grid,
         match.groups()[0] + '_number_grid': number_grid
