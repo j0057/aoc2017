@@ -6,6 +6,14 @@ import requests
 
 import pytest
 
+def match_groups(regex, string):
+    match = re.match(regex, string)
+    if not match:
+        raise ValueError('Regex did not match: {0!r}'.format(string))
+    return match.groups()
+
+re.match_groups = match_groups # shameless duck punching, but will save me 4 lines of code every day
+
 def get_cookie():
     with open('.cookie', 'r') as f:
         return f.read().strip()
