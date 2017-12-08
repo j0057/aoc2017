@@ -6,6 +6,8 @@ import requests
 
 import pytest
 
+YEAR = 2017
+
 def match_groups(regex, string):
     match = re.match(regex, string)
     if not match:
@@ -19,14 +21,14 @@ def get_cookie():
         return f.read().strip()
 
 def get_input(day):
-    response = requests.get('https://adventofcode.com/2017/day/{0}/input'.format(day), cookies={'session': get_cookie()})
+    response = requests.get('https://adventofcode.com/{0}/day/{1}/input'.format(YEAR, day), cookies={'session': get_cookie()})
     response.raise_for_status()
     return response
 
 def download_inputs():
     if not os.path.isdir('input'):
         os.mkdir('input')
-    today = min(25, (date.today() - date(2017, 11, 30)).days)
+    today = min(25, (date.today() - date(YEAR, 11, 30)).days)
     for day in range(1, today + 1):
         filename = 'input/day{0:02d}.txt'.format(day)
         if os.path.exists(filename):
