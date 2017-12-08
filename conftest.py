@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 import os
 import re
 
@@ -28,8 +28,9 @@ def get_input(day):
 def download_inputs():
     if not os.path.isdir('input'):
         os.mkdir('input')
+    early = datetime.now().hour >= 6
     today = min(25, (date.today() - date(YEAR, 11, 30)).days)
-    for day in range(1, today + 1):
+    for day in range(1, today + early):
         filename = 'input/day{0:02d}.txt'.format(day)
         if os.path.exists(filename):
             continue
