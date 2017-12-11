@@ -27,7 +27,7 @@ def last_distance(steps):
     return reduce(lambda _, d: d, (dist((0, 0, 0), c) for c in travel((0, 0, 0), steps)))
 
 def max_distance(steps):
-    return reduce(max, (dist((0, 0, 0), c) for c in travel((0, 0, 0), steps)))
+    return max(dist((0, 0, 0), c) for c in travel((0, 0, 0), steps))
     
 def test_11a_ex1(): assert last_distance('ne,ne,ne') == 3
 def test_11a_ex2(): assert last_distance('ne,ne,sw,sw') == 0
