@@ -15,6 +15,7 @@ def find_start(maze):
 
 def walk(maze, y, x):
     w, h = len(maze[0]), len(maze)
+
     if   y == 0:   dy, dx = +1,  0
     elif x == 0:   dy, dx =  0, +1
     elif y == h-1: dy, dx = -1,  0
@@ -22,7 +23,7 @@ def walk(maze, y, x):
 
     yield (y, x, None)
 
-    while True:
+    while (0 <= x < w) and (0 <= y < h) and (maze[y][x] != ' '):
         y += dy
         x += dx
 
@@ -37,16 +38,11 @@ def walk(maze, y, x):
                 if y > 0   and maze[y-1][x] != ' ': dy, dx = -1, 0
                 if y < h-1 and maze[y+1][x] != ' ': dy, dx = +1, 0
 
-        if not (0 <= x < w) or not (0 <= y < h) or (maze[y][x] == ' '):
-            break
-
 def one(maze):
-    y,x = find_start(maze)
-    return ''.join(p for (_, _, p) in walk(maze, y, x) if p)
+    return ''.join(p for (_, _, p) in walk(maze, *find_start(maze)) if p)
 
 def two(maze):
-    y,x = find_start(maze)
-    return sum(1 for _ in walk(maze, y, x))-1
+    return sum(1 for _ in walk(maze, *find_start(maze)))-1
 
 EX = [
     '     |          ',
