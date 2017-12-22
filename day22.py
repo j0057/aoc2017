@@ -2,27 +2,26 @@ from collections import defaultdict
 
 def parse(lines):
     grid = [['.#'.index(ch) for ch in line] for line in lines]
-    return defaultdict(int, {(y,x): v
+    return defaultdict(int, {x+1j*y: v
                              for (y, row) in enumerate(grid)
                              for (x, v) in enumerate(row)
                              if grid[y][x] == 1 }), len(grid), len(grid[0])
 
 # 0=clean 1=infected 2=weakened 3=flagged
 def iterate(grid, h, w, N, states):
-    turns = { 0: lambda dy,dx: d[(d.index((dy,dx))-1)%len(d)],
-              1: lambda dy,dx: d[(d.index((dy,dx))+1)%len(d)],
-              2: lambda dy,dx: (dy,dx),
-              3: lambda dy,dx: (-dy,-dx) }
-    y,x = h//2, w//2
-    d = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-    dy,dx = d[0]
+    turns = { 0: lambda d:  d * -1j,
+              1: lambda d:  d *  1j,
+              2: lambda d:  d,
+              3: lambda d: -d }
+    p = (w//2) + (h//2) * 1j
+    d = -1j
     c = 0
     for _ in range(N):
-        dy,dx = turns[grid[y,x]](dy,dx)
-        if states[grid[y,x]] == 1:
+        d = turns[grid[p]](d)
+        if states[grid[p]] == 1:
             c += 1
-        grid[y,x] = states[grid[y,x]]
-        y,x = y+dy, x+dx
+        grid[p] = states[grid[p]]
+        p += d
     return c
 
 def one(grid, h, w, N):
