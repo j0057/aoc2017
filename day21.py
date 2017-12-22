@@ -5,7 +5,7 @@ def tuplify(grid):
     return tuple(tuple(row) for row in grid)
 
 def rotate(M):
-    return [[M[y][x] for y in range(len(M)-1,-1,-1)] for x in range(len(M))]
+    return [[*row][::-1] for row in zip(*M)]
 
 def flip_v(M):
     return [[*reversed(row)] for row in M]
@@ -20,7 +20,7 @@ def transpose(M):
     M = rotate(M) ; yield M ; yield flip_v(M) ; yield flip_h(M)
 
 def unpack(s):
-    return [[1 if ch == '#' else 0 for ch in line] for line in s.split('/')]
+    return [['.#'.index(ch) for ch in line] for line in s.split('/')]
 
 def parse(patterns):
     for line in patterns:
@@ -29,9 +29,9 @@ def parse(patterns):
         yield from ((pattern, unpack(out_pattern)) for pattern in in_patterns)
 
 def get_pieces(grid, n):
-    yield from [[row[x:x+n] for row in grid[y:y+n]]
+    yield from ([row[x:x+n] for row in grid[y:y+n]]
                 for y in range(0, len(grid), n)
-                for x in range(0, len(grid), n)]
+                for x in range(0, len(grid), n))
 
 def put_pieces(pieces):
     R = int(sqrt(len(pieces)))
