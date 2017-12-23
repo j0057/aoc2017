@@ -6,9 +6,11 @@ def execute(reg, code):
         op, *a = code[reg['ip']]
         if   op == 'set':   reg[a[0]] =  get(reg, a[1])
         elif op == 'add':   reg[a[0]] += get(reg, a[1])
+        elif op == 'sub':   reg[a[0]] -= get(reg, a[1])
         elif op == 'mul':   reg[a[0]] *= get(reg, a[1])
         elif op == 'mod':   reg[a[0]] %= get(reg, a[1])
         elif op == 'jgz':   reg['ip'] += get(reg, a[1])-1 if get(reg, a[0]) > 0 else 0
+        elif op == 'jnz':   reg['ip'] += get(reg, a[1])-1 if get(reg, a[0]) != 0 else 0
         elif op == 'snd':
                 reg['SEND'].append(get(reg, a[0]))
                 reg['C'] += 1
@@ -26,19 +28,20 @@ def execute(reg, code):
         else:
             raise ValueError(code[reg['ip']])
         reg['ip'] += 1
+        reg['COUNT'][op] = reg['COUNT'].get(op, 0) + 1
 
 def one(program):
     code = [line.split() for line in program]
     queue = []
-    reg = defaultdict(lambda: 0, SEND=queue, RECV=queue, V=1)
+    reg = defaultdict(lambda: 0, COUNT={}, SEND=queue, RECV=queue, V=1)
     execute(reg, code)
     return reg['LAST']
 
 def two(program):
     code = [line.split() for line in program]
     q0, q1 = [[], []]
-    reg = [defaultdict(lambda: 0, C=0, SEND=q0, RECV=q1, p=0, P=0, V=2),
-           defaultdict(lambda: 0, C=0, SEND=q1, RECV=q0, p=1, P=1, V=2)]
+    reg = [defaultdict(lambda: 0, COUNT={}, SEND=q0, RECV=q1, p=0, P=0, V=2),
+           defaultdict(lambda: 0, COUNT={}, SEND=q1, RECV=q0, p=1, P=1, V=2)]
     p = 1
     while True:
         p = 1-p
@@ -47,7 +50,7 @@ def two(program):
             break
         if not (0 <= reg[0]['ip'] < len(code)) and not (0 <= reg[1]['ip'] < len(code)):
             break
-    return reg[1]['C']
+    return reg[1]['COUNT'].get('snd', 0)
 
 def test_18a_ex(): assert one('set a 1|add a 2|mul a a|mod a 5|snd a|set a 0|rcv a|jgz a -1|set a 1|jgz a -2'.split('|')) == 4
 def test_18b_ex(): assert two('snd 1|snd 2|snd p|rcv a|rcv b|rcv c|rcv d'.split('|')) == 3
