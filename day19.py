@@ -1,48 +1,45 @@
+def parse(maze):
+    return ({ complex(x, y): v
+              for (y, xs) in enumerate(maze)
+              for (x, v) in enumerate(xs) },
+            len(maze[0]),
+            len(maze))
 
-def find_start(maze):
-    w, h = len(maze[0]), len(maze)
-    for x, ch in enumerate(maze[0]):
-        if ch == '|':
-            return (0, x)
-    for x, ch in enumerate(maze[-1]):
-        if ch == '|':
-            return (h-1, x)
-    for y, line in enumerate(maze):
-        if line[0] == '-':
-            return (y, 0)
-        if line[-1] == '-':
-            return (y, w-1)
+def find_start(maze, w, h):
+    for x in range(w):
+        if maze[x+0j] == '|':
+            return (x+0j, 1j)
+    for x in range(w):
+        if maze[x+1j*(h-1)] == '|':
+            return (x+1j*(h-1), -1j)
+    for y in range(h):
+        if maze[y*1j] == '-':
+            return (y*1j, +1+0j)
+    for y in range(h):
+        if maze[w-1 + y*1j] == '-':
+            return (w-1+y*1j, -1+0j)
 
-def walk(maze, y, x):
-    w, h = len(maze[0]), len(maze)
+def walk(maze, w, h, p, d):
+    yield (p, None)
 
-    if   y == 0:   dy, dx = +1,  0
-    elif x == 0:   dy, dx =  0, +1
-    elif y == h-1: dy, dx = -1,  0
-    elif x == w-1: dy, dx =  0, -1
+    while (0 <= p.real < w) and (0 <= p.imag < h) and (maze[p] != ' '):
+        p += d
 
-    yield (y, x, None)
+        yield (p, maze[p] if maze[p].isalpha() else None)
 
-    while (0 <= x < w) and (0 <= y < h) and (maze[y][x] != ' '):
-        y += dy
-        x += dx
+        if maze[p] == '+':
+            if not d.real:
+                if p.real > 0   and maze[p-1] != ' ': d = -1+0j
+                if p.real < w-1 and maze[p+1] != ' ': d =  1+0j
+            elif not d.imag:
+                if p.imag > 0   and maze[p-1j] != ' ': d = -1j
+                if p.imag < h-1 and maze[p+1j] != ' ': d =  1j
 
-        yield (y, x, maze[y][x] if maze[y][x].isalpha() else None)
+def one(maze, w, h):
+    return ''.join(p for (_, p) in walk(maze, w, h, *find_start(maze, w, h)) if p)
 
-        if maze[y][x] == '+':
-            if dx == 0:
-                if x > 0   and maze[y][x-1] != ' ': dy, dx = 0, -1
-                if x < w-1 and maze[y][x+1] != ' ': dy, dx = 0, +1
-
-            elif dy == 0:
-                if y > 0   and maze[y-1][x] != ' ': dy, dx = -1, 0
-                if y < h-1 and maze[y+1][x] != ' ': dy, dx = +1, 0
-
-def one(maze):
-    return ''.join(p for (_, _, p) in walk(maze, *find_start(maze)) if p)
-
-def two(maze):
-    return sum(1 for _ in walk(maze, *find_start(maze)))-1
+def two(maze, w, h):
+    return sum(1 for _ in walk(maze, w, h, *find_start(maze, w, h)))-1
 
 EX = [
     '     |          ',
@@ -53,10 +50,10 @@ EX = [
     '     +B-+  +--+ '
 ]
 
-def test_19a_ex0(): assert find_start(EX) == (0,5)
+def test_19a_ex0(): assert find_start(*parse(EX)) == (5+0j, 1j)
 
-def test_19a_ex(): assert one(EX) == 'ABCDEF'
-def test_19b_ex(): assert two(EX) == 38
+def test_19a_ex(): assert one(*parse(EX)) == 'ABCDEF'
+def test_19b_ex(): assert two(*parse(EX)) == 38
 
-def test_19a_answer(day19_raw): assert one(day19_raw.split('\n')) == 'HATBMQJYZ'
-def test_19b_answer(day19_raw): assert two(day19_raw.split('\n')) == 16332
+def test_19a_answer(day19_raw): assert one(*parse(day19_raw.split('\n'))) == 'HATBMQJYZ'
+def test_19b_answer(day19_raw): assert two(*parse(day19_raw.split('\n'))) == 16332
