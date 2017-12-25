@@ -28,11 +28,11 @@ def parse(lines):
 
 def run(state, count, states):
     tape = defaultdict(int)
-    i = 0
+    head = 0
     for _ in range(count):
-        write, move, cont = states[state, tape[i]]
-        tape[i] = write
-        i += move
+        write, move, cont = states[state, tape[head]]
+        tape[head] = write
+        head += move
         state = cont
     return sum(tape.values())
 
