@@ -1,29 +1,13 @@
 from collections import defaultdict
-import re
 
 def parse(lines):
-    begin = re.match_groups(r'Begin in state (\w+)', lines[0])
-    begin = begin[0]
-
-    count = re.match_groups(r'^Perform a diagnostic checksum after (\d+) steps\.$', lines[1])
-    count = int(count[0])
-
+    begin = str(lines[0][:-1].split()[-1])
+    count = int(lines[1][:-1].split()[-2])
+    chunks = lambda s, L: [L[i:i+s] for i in range(0, len(L), s)]
     states = {}
-    i = 3
-    for i in range(3, len(lines), 10):
-        state = re.match_groups(r'In state (\w+):', lines[i+0])
-
-        write0 = re.match_groups(r'^ *- Write the value (\d+)', lines[i+2])
-        move0 = re.match_groups(r'^ *- Move one slot to the (left|right)', lines[i+3])
-        cont0 = re.match_groups(r'^ *- Continue with state (\w+)\.', lines[i+4])
-
-        write1 = re.match_groups(r'^ *- Write the value (\d+)', lines[i+6])
-        move1 = re.match_groups(r'^ *- Move one slot to the (left|right)', lines[i+7])
-        cont1 = re.match_groups(r'^ *- Continue with state (\w+)\.', lines[i+8])
-
-        states[state[0], 0] = (int(write0[0]), -1 if move0[0] == 'left' else +1, cont0[0])
-        states[state[0], 1] = (int(write1[0]), -1 if move1[0] == 'left' else +1, cont1[0])
-
+    for chunk in chunks(9, [line[:-1].split()[-1] for line in lines[3:] if line]):
+        states[chunk[0], int(chunk[1])] = (int(chunk[2]), -1 if chunk[3]=='left' else +1, chunk[4])
+        states[chunk[0], int(chunk[5])] = (int(chunk[6]), -1 if chunk[7]=='left' else +1, chunk[8])
     return begin, count, states
 
 def run(state, count, states):
