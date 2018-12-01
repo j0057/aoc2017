@@ -1,4 +1,6 @@
-requests
 pytest
+pytest-aoc
+pytest-pudb
 pytest-watch
+pytest-xdist
 networkx
