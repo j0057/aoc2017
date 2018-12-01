@@ -27,5 +27,5 @@ def dance(size, program, iterations=1):
 
 def test_16a_ex1(): assert dance(5, 's1,x3/4,pe/b') == 'baedc'
 
-def test_16a_answer(day16): assert dance(16, day16, 1)          == 'kgdchlfniambejop'
-def test_16b_answer(day16): assert dance(16, day16, 1000000000) == 'fjpmholcibdgeakn'
+def test_16a_answer(day16_text): assert dance(16, day16_text, 1)          == 'kgdchlfniambejop'
+def test_16b_answer(day16_text): assert dance(16, day16_text, 1000000000) == 'fjpmholcibdgeakn'

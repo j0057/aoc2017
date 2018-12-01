@@ -39,6 +39,6 @@ def test_11b_ex2(): assert max_distance('ne,ne,sw,sw') == 2
 def test_11b_ex3(): assert max_distance('ne,ne,s,s') == 2
 def test_11b_ex4(): assert max_distance('se,sw,se,sw,sw') == 3
 
-def test_11a_answer(day11): assert last_distance(day11) == 707
-def test_11b_answer(day11): assert max_distance(day11) == 1490
+def test_11a_answer(day11_text): assert last_distance(day11_text) == 707
+def test_11b_answer(day11_text): assert max_distance(day11_text) == 1490
 

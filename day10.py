@@ -34,5 +34,5 @@ def test_10b_ex2(): assert knot_ascii('AoC 2017') == '33efeb34ea91902bb2f59c9920
 def test_10b_ex3(): assert knot_ascii('1,2,3') == '3efbe78a8d82f29979031a4aa0b16a9d'
 def test_10b_ex4(): assert knot_ascii('1,2,4') == '63960835bcdc130f0b66d7ff4f6a5a8e'
 
-def test_10a_answer(day10): assert knot_hash_prod(256, [int(x) for x in day10.split(',')]) == 9656
-def test_10b_answer(day10): assert knot_ascii(day10) == '20b7b54c92bf73cf3e5631458a715149'
+def test_10a_answer(day10_text): assert knot_hash_prod(256, [int(x) for x in day10_text.split(',')]) == 9656
+def test_10b_answer(day10_text): assert knot_ascii(day10_text) == '20b7b54c92bf73cf3e5631458a715149'

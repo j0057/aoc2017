@@ -34,5 +34,5 @@ def knot_grid_regions(data):
 def test_14a_ex(): assert knot_grid_popcount('flqrgnkx') == 8108
 def test_14b_ex(): assert knot_grid_regions('flqrgnkx') == 1242
 
-def test_14a_answer(day14): assert knot_grid_popcount(day14) == 8216
-def test_14b_answer(day14): assert knot_grid_regions(day14) == 1139
+def test_14a_answer(day14_text): assert knot_grid_popcount(day14_text) == 8216
+def test_14b_answer(day14_text): assert knot_grid_regions(day14_text) == 1139

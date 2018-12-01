@@ -36,4 +36,4 @@ def test_9b_ex5(): assert score('<!!>')[1] == 0
 def test_9b_ex6(): assert score('<!!!>>')[1] == 0
 def test_9b_ex7(): assert score('<{o"i!a,<{i<a>')[1] == 10
 
-def test_9_answer(day09): assert score(day09) == (12505, 6671)
+def test_9_answer(day09_text): assert score(day09_text) == (12505, 6671)

@@ -2,7 +2,7 @@ from collections import Counter
 import re
 
 def parse(lines):
-    parsed = [re.match_groups(r'^(\w+) \((\d+)\)(?: -> (.*))?$', line) for line in lines]
+    parsed = [re.match(r'^(\w+) \((\d+)\)(?: -> (.*))?$', line).groups() for line in lines]
     return ({ name: refs.split(', ') if refs else [] for (name, _, refs) in parsed },
             { name: int(weight) for (name, weight, _) in parsed })
 
